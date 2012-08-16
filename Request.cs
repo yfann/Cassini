@@ -170,18 +170,18 @@ namespace Cassini
         private bool TryParseRequest()
         {
             Reset();
-
+            Helper.PrintMessage("BeginReadAllHeaders");
             ReadAllHeaders();
-
+            Helper.PrintMessage("EndReadAllHeaders");
             if (_headerBytes == null || _endHeadersOffset < 0 ||
                 _headerByteStrings == null || _headerByteStrings.Count == 0)
             {
                 _connection.WriteErrorAndClose(400);
                 return false;
             }
-
+            Helper.PrintMessage("BeginParseRequestLine");
             ParseRequestLine();
-
+            Helper.PrintMessage("EndParseRequestLine");
             // Check for bad path
             if (IsBadPath())
             {
@@ -207,7 +207,7 @@ namespace Cassini
         {
             // read the first packet (up to 32K)
             byte[] headerBytes = _connection.ReadRequestBytes(maxHeaderBytes);
-            Helper.PrintMessage(string.Format("TryReadAllHeaders>>{0}", headerBytes == null ? "null" : headerBytes.Length.ToString()));
+            //Helper.PrintMessage(string.Format("TryReadAllHeaders>>{0}", headerBytes == null ? "null" : headerBytes.Length.ToString()));
             if (headerBytes == null || headerBytes.Length == 0)
                 return false;
 

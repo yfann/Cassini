@@ -7,9 +7,16 @@ namespace Cassini
 {
     public static class Helper
     {
+        public static string Formate = "*************** {0}";
+
         public static void PrintMessage(string str)
         {
-            Console.WriteLine(str);
+            Console.WriteLine(string.Format(Formate, str));
+        }
+
+        public static void PrintMessage(string formate, params string[] arr)
+        {
+            Console.WriteLine(string.Format(Formate, string.Format(formate, arr)));
         }
     }
 }

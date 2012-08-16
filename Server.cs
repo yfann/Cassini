@@ -23,50 +23,64 @@ using System.Threading;
 using System.Web;
 using System.Web.Hosting;
 
-namespace Cassini {
-    class Server : MarshalByRefObject {
-        int _port;
-        string _virtualPath;
-        string _physicalPath;
-        bool _shutdownInProgress;
-        Socket _socket;
-        Host _host;
+namespace Cassini
+{
+    internal class Server : MarshalByRefObject
+    {
+        private int _port;
+        private string _virtualPath;
+        private string _physicalPath;
+        private bool _shutdownInProgress;
+        private Socket _socket;
+        private Host _host;
 
-        public Server(int port, string virtualPath, string physicalPath) {
+        public Server(int port, string virtualPath, string physicalPath)
+        {
             _port = port;
             _virtualPath = virtualPath;
             _physicalPath = physicalPath.EndsWith("\\", StringComparison.Ordinal) ? physicalPath : physicalPath + "\\";
         }
 
-        public override object InitializeLifetimeService() {
+        public override object InitializeLifetimeService()
+        {
             // never expire the license
             return null;
         }
 
-        public string VirtualPath {
-            get {
+        public string VirtualPath
+        {
+            get
+            {
                 return _virtualPath;
             }
         }
 
-        public string PhysicalPath {
-            get {
+        public string PhysicalPath
+        {
+            get
+            {
                 return _physicalPath;
             }
         }
 
-        public int Port {
-            get {
+        public int Port
+        {
+            get
+            {
                 return _port;
             }
         }
 
-        public string RootUrl {
-            get {
-                if (_port != 80) {
+        public string RootUrl
+        {
+            get
+            {
+                if (_port != 80)
+                {
                     return "http://localhost:" + _port + _virtualPath;
                 }
-                else {
+                else
+                {
                     return "http://localhost" + _virtualPath;
                 }
             }
@@ -74,41 +88,52 @@ namespace Cassini {
 
         //
         // Socket listening
-        // 
+        //
 
-        static Socket CreateSocketBindAndListen(AddressFamily family, IPAddress address, int port) {
+        private static Socket CreateSocketBindAndListen(AddressFamily family, IPAddress address, int port)
+        {
             var socket = new Socket(family, SocketType.Stream, ProtocolType.Tcp);
             socket.Bind(new IPEndPoint(address, port));
             socket.Listen((int)SocketOptionName.MaxConnections);
             return socket;
         }
 
-        public void Start() {
-            try {
+        public void Start()
+        {
+            try
+            {
                 _socket = CreateSocketBindAndListen(AddressFamily.InterNetwork, IPAddress.Loopback, _port);
             }
-            catch {
+            catch
+            {
                 _socket = CreateSocketBindAndListen(AddressFamily.InterNetworkV6, IPAddress.IPv6Loopback, _port);
             }
 
-            ThreadPool.QueueUserWorkItem(delegate {
-                while (!_shutdownInProgress) {
-                    try {
+            ThreadPool.QueueUserWorkItem(delegate
+            {
+                while (!_shutdownInProgress)
+                {
+                    try
+                    {
                         Socket acceptedSocket = _socket.Accept();
 
-                        ThreadPool.QueueUserWorkItem(delegate {
-                            if (!_shutdownInProgress) {
+                        ThreadPool.QueueUserWorkItem(delegate
+                        {
+                            if (!_shutdownInProgress)
+                            {
                                 var conn = new Connection(this, acceptedSocket);
 
                                 // wait for at least some input
-                                if (conn.WaitForRequestBytes() == 0) {
+                                if (conn.WaitForRequestBytes() == 0)
+                                {
                                     conn.WriteErrorAndClose(400);
                                     return;
                                 }
 
                                 // find or create host
                                 Host host = GetHost();
-                                if (host == null) {
+                                if (host == null)
+                                {
                                     conn.WriteErrorAndClose(500);
                                     return;
                                 }
@@ -118,39 +143,50 @@ namespace Cassini {
                             }
                         });
                     }
-                    catch {
+                    catch
+                    {
                         Thread.Sleep(100);
                     }
                 }
             });
         }
 
-        public void Stop() {
+        public void Stop()
+        {
             _shutdownInProgress = true;
 
-            try {
-                if (_socket != null) {
+            try
+            {
+                if (_socket != null)
+                {
                     _socket.Close();
                 }
             }
-            catch {
+            catch
+            {
             }
-            finally {
+            finally
+            {
                 _socket = null;
             }
 
-            try {
-                if (_host != null) {
+            try
+            {
+                if (_host != null)
+                {
                     _host.Shutdown();
                 }
 
-                while (_host != null) {
+                while (_host != null)
+                {
                     Thread.Sleep(100);
                 }
             }
-            catch {
+            catch
+            {
             }
-            finally {
+            finally
+            {
                 _host = null;
             }
         }
@@ -158,27 +194,34 @@ namespace Cassini {
         // called at the end of request processing
         // to disconnect the remoting proxy for Connection object
         // and allow GC to pick it up
-        public void OnRequestEnd(Connection conn) {
+        public void OnRequestEnd(Connection conn)
+        {
             RemotingServices.Disconnect(conn);
         }
 
-        public void HostStopped() {
+        public void HostStopped()
+        {
             _host = null;
         }
 
-        Host GetHost() {
+        private Host GetHost()
+        {
             if (_shutdownInProgress)
                 return null;
 
             Host host = _host;
 
-            if (host == null) {
-                lock (this) {
+            if (host == null)
+            {
+                lock (this)
+                {
                     host = _host;
-                    if (host == null) {
+                    if (host == null)
+                    {
                         host = (Host)CreateWorkerAppDomainWithHost(_virtualPath, _physicalPath, typeof(Host));
                         host.Configure(this, _port, _virtualPath, _physicalPath);
                         _host = host;
+                        Helper.PrintMessage("Hosted");
                     }
                 }
             }
@@ -186,7 +229,8 @@ namespace Cassini {
             return host;
         }
 
-        static object CreateWorkerAppDomainWithHost(string virtualPath, string physicalPath, Type hostType) {
+        private static object CreateWorkerAppDomainWithHost(string virtualPath, string physicalPath, Type hostType)
+        {
             // this creates worker app domain in a way that host doesn't need to be in GAC or bin
             // using BuildManagerHost via private reflection
             string uniqueAppString = string.Concat(virtualPath, physicalPath).ToLowerInvariant();

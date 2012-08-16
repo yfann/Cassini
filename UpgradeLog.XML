@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?><?xml-stylesheet type='text/xsl' href='_UpgradeReport_Files/UpgradeReport.xslt'?><UpgradeLog>
+<Properties><Property Name="Solution" Value="Cassini-v35">
+</Property><Property Name="Solution File" Value="E:\Projects\cassini-v35\Cassini-v35.sln">
+</Property><Property Name="Date" Value="2012年1月4日">
+</Property><Property Name="Time" Value="10:22:36">
+</Property></Properties><Event ErrorLevel="0" Project="Cassini-v35" Source="Cassini-v35.csproj" Description="Project file successfully backed up as E:\Projects\cassini-v35\Backup\Cassini-v35.csproj">
+</Event><Event ErrorLevel="0" Project="Cassini-v35" Source="ByteParser.cs" Description="File successfully backed up as E:\Projects\cassini-v35\Backup\ByteParser.cs">
+</Event><Event ErrorLevel="0" Project="Cassini-v35" Source="ByteString.cs" Description="File successfully backed up as E:\Projects\cassini-v35\Backup\ByteString.cs">
+</Event><Event ErrorLevel="0" Project="Cassini-v35" Source="Connection.cs" Description="File successfully backed up as E:\Projects\cassini-v35\Backup\Connection.cs">
+</Event><Event ErrorLevel="0" Project="Cassini-v35" Source="Host.cs" Description="File successfully backed up as E:\Projects\cassini-v35\Backup\Host.cs">
+</Event><Event ErrorLevel="0" Project="Cassini-v35" Source="Main.cs" Description="File successfully backed up as E:\Projects\cassini-v35\Backup\Main.cs">
+</Event><Event ErrorLevel="0" Project="Cassini-v35" Source="Messages.cs" Description="File successfully backed up as E:\Projects\cassini-v35\Backup\Messages.cs">
+</Event><Event ErrorLevel="0" Project="Cassini-v35" Source="Properties\AssemblyInfo.cs" Description="File successfully backed up as E:\Projects\cassini-v35\Backup\Properties\AssemblyInfo.cs">
+</Event><Event ErrorLevel="0" Project="Cassini-v35" Source="Properties\Resources.Designer.cs" Description="File successfully backed up as E:\Projects\cassini-v35\Backup\Properties\Resources.Designer.cs">
+</Event><Event ErrorLevel="0" Project="Cassini-v35" Source="Request.cs" Description="File successfully backed up as E:\Projects\cassini-v35\Backup\Request.cs">
+</Event><Event ErrorLevel="0" Project="Cassini-v35" Source="Server.cs" Description="File successfully backed up as E:\Projects\cassini-v35\Backup\Server.cs">
+</Event><Event ErrorLevel="0" Project="Cassini-v35" Source="Cassini.ico" Description="File successfully backed up as E:\Projects\cassini-v35\Backup\Cassini.ico">
+</Event><Event ErrorLevel="0" Project="Cassini-v35" Source="Ms-PL.htm" Description="File successfully backed up as E:\Projects\cassini-v35\Backup\Ms-PL.htm">
+</Event><Event ErrorLevel="0" Project="Cassini-v35" Source="ReadMe.txt" Description="File successfully backed up as E:\Projects\cassini-v35\Backup\ReadMe.txt">
+</Event><Event ErrorLevel="0" Project="Cassini-v35" Source="Properties\Resources.resx" Description="File successfully backed up as E:\Projects\cassini-v35\Backup\Properties\Resources.resx">
+</Event><Event ErrorLevel="0" Project="Cassini-v35" Source="Cassini-v35.csproj" Description="Project converted successfully">
+</Event><Event ErrorLevel="3" Project="Cassini-v35" Source="Cassini-v35.csproj" Description="Converted">
+</Event><Event ErrorLevel="0" Project="Cassini-v35" Source="Cassini-v35.csproj" Description="Scan complete: Upgrade not required for project files.">
+</Event></UpgradeLog>

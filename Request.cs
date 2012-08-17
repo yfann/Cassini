@@ -215,7 +215,7 @@ namespace Cassini
             {
                 // previous partial read
                 int len = headerBytes.Length + _headerBytes.Length;
-                if (len > maxHeaderBytes)
+                if (len > maxHeaderBytes)//限制在32K?
                     return false;
 
                 byte[] bytes = new byte[len];
@@ -279,7 +279,7 @@ namespace Cassini
 
         private void ParseRequestLine()
         {
-            ByteString requestLine = _headerByteStrings[0];
+            ByteString requestLine = _headerByteStrings[0];//请求行
             ByteString[] elems = requestLine.Split(' ');
 
             if (elems == null || elems.Length < 2 || elems.Length > 3)
@@ -359,8 +359,9 @@ namespace Cassini
                 _filePath = _path;
                 _pathInfo = String.Empty;
             }
-
+            Helper.PrintMessage("filePath:{0}", _filePath);
             _pathTranslated = MapPath(_filePath);
+            Helper.PrintMessage("mappedPaht:{0}", _pathTranslated);
         }
 
         private bool IsBadPath()

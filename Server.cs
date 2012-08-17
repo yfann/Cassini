@@ -115,6 +115,7 @@ namespace Cassini
                 {
                     try
                     {
+                        Helper.PrintMessage("Server wait for accept");
                         Socket acceptedSocket = _socket.Accept();
 
                         ThreadPool.QueueUserWorkItem(delegate
